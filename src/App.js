@@ -154,16 +154,17 @@ class App extends React.Component {
                   {this.state.log.map((value, i) => {
                     const regex = new RegExp(`[${mapping[""].map(c => String.fromCharCode(c)).join('')}]`, "g");
                     const printable = value.replace(regex, "␣");
-                    return (<ListItem key={i} role={undefined} button>
-                      <ListItemText primary={printable} />
-                      <ListItemSecondaryAction>
-                        <CopyToClipboard text={value}>
-                          <IconButton edge="end" aria-label="comments">
-                            <FileCopyIcon />
-                          </IconButton>
-                        </CopyToClipboard>
-                      </ListItemSecondaryAction>
-                    </ListItem>
+                    return (
+                      <ListItem key={i} button component="a" href={`http://${value}`} target="_blank">
+                        <ListItemText primary={printable} />
+                        <ListItemSecondaryAction>
+                          <CopyToClipboard text={value}>
+                            <IconButton edge="end" aria-label="comments">
+                              <FileCopyIcon />
+                            </IconButton>
+                          </CopyToClipboard>
+                        </ListItemSecondaryAction>
+                      </ListItem>
                     )
                   })
                   }
