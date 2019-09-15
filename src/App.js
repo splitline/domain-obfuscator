@@ -6,12 +6,23 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Link from '@material-ui/core/Link';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListItemText from '@material-ui/core/ListItemText';
 import Box from '@material-ui/core/Box';
-import HttpIcon from '@material-ui/icons/Http';
 import Typography from '@material-ui/core/Typography';
 import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Paper from '@material-ui/core/Paper';
 import { Switch } from '@material-ui/core';
+
+import IconButton from '@material-ui/core/IconButton';
+import HttpIcon from '@material-ui/icons/Http';
+import FileCopyIcon from '@material-ui/icons/FileCopy';
+
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+
 import mapping from './mapping';
 
 const Copyright = () =>
@@ -50,14 +61,14 @@ const styles = theme => ({
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { domain: '', noAscii: false, convertDot: false };
+    this.state = { domain: '', noAscii: false, convertDot: false, log: [] };
   }
   obfuscator(domain) {
     const replace = [];
     for (let i = 0; i < domain.length; ++i) {
       for (let j = 4; j >= 1; --j) {
         const searching = domain.substr(i, j);
-        if(!this.state.convertDot && searching===".") continue;
+        if (!this.state.convertDot && searching === ".") continue;
         if (searching in mapping) {
           replace.push(searching);
           i += j - 1;
@@ -75,6 +86,21 @@ class App extends React.Component {
     replace.forEach(r => domain = domain.replace(r, select(mapping[r])))
     return domain;
   }
+
+  generate() {
+    let domain;
+    try {
+      domain = new URL(this.state.domain).hostname;
+    } catch (e) {
+      domain = this.state.domain;
+    }
+    if (domain.trim() === '') return;
+    const result = this.obfuscator(domain);
+    this.setState({
+      log: [result, ...this.state.log]
+    });
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -86,14 +112,14 @@ class App extends React.Component {
           </Avatar>
           <Typography variant="h4">
             Domain Obfuscator
-        </Typography>
+          </Typography>
           <div className={classes.form}>
             <TextField
               variant="outlined"
               margin="normal"
               fullWidth
               id="domain"
-              label="Normal Domain Name"
+              label="Normal Domain Name (ASCII Only)"
               name="domain"
               onChange={e => this.setState({ domain: e.target.value })}
               autoFocus
@@ -112,12 +138,35 @@ class App extends React.Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={() => console.log(this.obfuscator(this.state.domain))}
+              onClick={this.generate.bind(this)}
             >
               Generate
-          </Button>
+            </Button>
+            <Paper>
+              {this.state.log.length ?
+                <List>
+                  {this.state.log.map((value, i) => (
+                    <ListItem key={i} role={undefined} button>
+                      <ListItemText primary={value} />
+                      <ListItemSecondaryAction>
+                        <CopyToClipboard text={value}>
+                          <IconButton edge="end" aria-label="comments">
+                            <FileCopyIcon />
+                          </IconButton>
+                        </CopyToClipboard>
+                      </ListItemSecondaryAction>
+                    </ListItem>
+                  ))
+                  }
+                </List> :
+                (<div style={{padding:"1em", textAlign:"center"}}>
+                  <Typography variant="h5">Try to generate something?</Typography>
+                </div>)
+              }
+            </Paper>
           </div>
         </div>
+
         <Box mt={8}>
           <Copyright />
         </Box>
