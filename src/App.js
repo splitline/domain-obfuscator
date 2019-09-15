@@ -61,8 +61,9 @@ const styles = theme => ({
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { domain: '', noAscii: false, convertDot: false, log: [] };
+    this.state = { domain: '', noAscii: false, convertDot: false, weirdChar: false, log: [] };
   }
+
   obfuscator(domain) {
     const replace = [];
     for (let i = 0; i < domain.length; ++i) {
@@ -83,7 +84,8 @@ class App extends React.Component {
       );
       return String.fromCharCode(arr[Math.floor(Math.random() * arr.length)]);
     }
-    replace.forEach(r => domain = domain.replace(r, select(mapping[r])))
+    replace.forEach(r => domain = domain.replace(r, select(mapping[r])));
+    if (this.state.weirdChar) domain = domain.split("").join(select(mapping[""]));
     return domain;
   }
 
@@ -132,6 +134,10 @@ class App extends React.Component {
               control={<Switch color="primary" onChange={e => this.setState({ convertDot: e.target.checked })} />}
               label="Convert Dot(.)"
             />
+            <FormControlLabel
+              control={<Switch color="primary" onChange={e => this.setState({ weirdChar: e.target.checked })} />}
+              label="Add Weird Chars"
+            />
             <Button
               type="submit"
               fullWidth
@@ -145,9 +151,11 @@ class App extends React.Component {
             <Paper>
               {this.state.log.length ?
                 <List>
-                  {this.state.log.map((value, i) => (
-                    <ListItem key={i} role={undefined} button>
-                      <ListItemText primary={value} />
+                  {this.state.log.map((value, i) => {
+                    const regex = new RegExp(`[${mapping[""].map(c => String.fromCharCode(c)).join('')}]`, "g");
+                    const printable = value.replace(regex, "␣");
+                    return (<ListItem key={i} role={undefined} button>
+                      <ListItemText primary={printable} />
                       <ListItemSecondaryAction>
                         <CopyToClipboard text={value}>
                           <IconButton edge="end" aria-label="comments">
@@ -156,10 +164,11 @@ class App extends React.Component {
                         </CopyToClipboard>
                       </ListItemSecondaryAction>
                     </ListItem>
-                  ))
+                    )
+                  })
                   }
                 </List> :
-                (<div style={{padding:"1em", textAlign:"center"}}>
+                (<div style={{ padding: "3em", textAlign: "center" }}>
                   <Typography variant="h5">Try to generate something?</Typography>
                 </div>)
               }
