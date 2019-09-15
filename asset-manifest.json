@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/domain-obfuscator/static/css/main.34de6062.chunk.css",
+    "main.js": "/domain-obfuscator/static/js/main.cc4d5fd2.chunk.js",
+    "main.js.map": "/domain-obfuscator/static/js/main.cc4d5fd2.chunk.js.map",
+    "runtime~main.js": "/domain-obfuscator/static/js/runtime~main.f821acd9.js",
+    "runtime~main.js.map": "/domain-obfuscator/static/js/runtime~main.f821acd9.js.map",
+    "static/js/2.572f14a0.chunk.js": "/domain-obfuscator/static/js/2.572f14a0.chunk.js",
+    "static/js/2.572f14a0.chunk.js.map": "/domain-obfuscator/static/js/2.572f14a0.chunk.js.map",
+    "index.html": "/domain-obfuscator/index.html",
+    "precache-manifest.d37e1740d783afaf6e487b14a59e6dcf.js": "/domain-obfuscator/precache-manifest.d37e1740d783afaf6e487b14a59e6dcf.js",
+    "service-worker.js": "/domain-obfuscator/service-worker.js",
+    "static/css/main.34de6062.chunk.css.map": "/domain-obfuscator/static/css/main.34de6062.chunk.css.map"
+  }
+}
