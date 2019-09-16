@@ -65,6 +65,7 @@ class App extends React.Component {
   }
 
   obfuscator(domain) {
+    domain = domain.toLowerCase();
     const replace = [];
     for (let i = 0; i < domain.length; ++i) {
       for (let j = 4; j >= 1; --j) {
@@ -136,7 +137,7 @@ class App extends React.Component {
             />
             <FormControlLabel
               control={<Switch color="primary" onChange={e => this.setState({ weirdChar: e.target.checked })} />}
-              label="Add Weird Chars"
+              label="Insert Weird Chars"
             />
             <Button
               type="submit"
@@ -144,7 +145,7 @@ class App extends React.Component {
               variant="contained"
               color="primary"
               className={classes.submit}
-              onClick={this.generate.bind(this)}
+              onClick={() => this.generate()}
             >
               Generate
             </Button>
