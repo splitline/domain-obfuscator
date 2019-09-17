@@ -27,7 +27,11 @@ import mapping from './mapping';
 
 const Copyright = () =>
   <Typography variant="body2" color="textSecondary" align="center">
-    <b>Domain Obfuscator</b> by <Link color="inherit" href="https://github.com/splitline">
+    <Link color="inherit" href="https://github.com/splitline/domain-obfuscator">
+      <b>Domain Obfuscator</b>
+    </Link>
+    {' by '}
+    <Link color="inherit" href="https://github.com/splitline">
       splitline
     </Link>.
   </Typography>
@@ -91,12 +95,11 @@ class App extends React.Component {
   }
 
   generate() {
-    let domain;
+    let domain = this.state.domain;
     try {
       domain = new URL(this.state.domain).hostname;
-    } catch (e) {
-      domain = this.state.domain;
-    }
+    } catch (e) { }
+
     if (domain.trim() === '') return;
     const result = this.obfuscator(domain);
     this.setState({
