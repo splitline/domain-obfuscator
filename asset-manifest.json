@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/domain-obfuscator/static/css/main.34de6062.chunk.css",
-    "main.js": "/domain-obfuscator/static/js/main.e6ec12fb.chunk.js",
-    "main.js.map": "/domain-obfuscator/static/js/main.e6ec12fb.chunk.js.map",
+    "main.js": "/domain-obfuscator/static/js/main.1f8c0895.chunk.js",
+    "main.js.map": "/domain-obfuscator/static/js/main.1f8c0895.chunk.js.map",
     "runtime~main.js": "/domain-obfuscator/static/js/runtime~main.f821acd9.js",
     "runtime~main.js.map": "/domain-obfuscator/static/js/runtime~main.f821acd9.js.map",
     "static/js/2.572f14a0.chunk.js": "/domain-obfuscator/static/js/2.572f14a0.chunk.js",
     "static/js/2.572f14a0.chunk.js.map": "/domain-obfuscator/static/js/2.572f14a0.chunk.js.map",
     "index.html": "/domain-obfuscator/index.html",
-    "precache-manifest.38bf0d0c8c86c8e3f6c09fff4d2c7abf.js": "/domain-obfuscator/precache-manifest.38bf0d0c8c86c8e3f6c09fff4d2c7abf.js",
+    "precache-manifest.ce8c44c6b7b8153c80c5a4f919a6a8a4.js": "/domain-obfuscator/precache-manifest.ce8c44c6b7b8153c80c5a4f919a6a8a4.js",
     "service-worker.js": "/domain-obfuscator/service-worker.js",
     "static/css/main.34de6062.chunk.css.map": "/domain-obfuscator/static/css/main.34de6062.chunk.css.map"
   }
