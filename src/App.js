@@ -87,7 +87,7 @@ class App extends React.Component {
       arr = arr.filter(char =>
         (!this.state.noAscii || char > 0xff)
       );
-      return String.fromCharCode(arr[Math.floor(Math.random() * arr.length)]);
+      return String.fromCodePoint(arr[Math.floor(Math.random() * arr.length)]);
     }
     replace.forEach(r => domain = domain.replace(r, select(mapping[r])));
     if (this.state.weirdChar) domain = domain.split("").join(select(mapping[""]));
@@ -156,7 +156,7 @@ class App extends React.Component {
               {this.state.log.length ?
                 <List>
                   {this.state.log.map((value, i) => {
-                    const regex = new RegExp(`[${mapping[""].map(c => String.fromCharCode(c)).join('')}]`, "g");
+                    const regex = new RegExp(`[${mapping[""].map(c => String.fromCodePoint(c)).join('')}]`, "g");
                     const printable = value.replace(regex, "␣");
                     return (
                       <ListItem key={i} button component="a" href={`http://${value}`} target="_blank">
