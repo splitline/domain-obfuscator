@@ -65,7 +65,15 @@ const styles = theme => ({
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { domain: '', noAscii: false, convertDot: false, weirdChar: false, log: [] };
+    this.state = {
+      domain: '',
+      noAscii: false,
+      convertDot: false,
+      weirdChar: false,
+      log: [],
+      noDuplicates: false,
+      randomCharacters: false
+    };
   }
 
   obfuscator(domain) {
@@ -83,14 +91,22 @@ class App extends React.Component {
       }
     }
 
-    const select = arr => {
-      arr = arr.filter(char =>
-        (!this.state.noAscii || char > 0xff)
+    const select = (arr, denylist) => {
+      let filteredArr = arr.filter(char =>
+        (!this.state.noAscii || char > 0xff) && !denylist.includes(String.fromCodePoint(char))
       );
-      return String.fromCodePoint(arr[Math.floor(Math.random() * arr.length)]);
+      if (filteredArr.length === 0) {
+        filteredArr = [...arr];
+      }
+
+      const charCode = this.state.randomCharacters ?
+        filteredArr[Math.floor(Math.random() * filteredArr.length)] :
+        filteredArr[0];
+
+      return String.fromCodePoint(charCode);
     }
-    replace.forEach(r => domain = domain.replace(r, select(mapping[r])));
-    if (this.state.weirdChar) domain = domain.split("").join(select(mapping[""]));
+    replace.forEach(r => domain = domain.replace(r, select(mapping[r], (this.state.noDuplicates ? domain : []))));
+    if (this.state.weirdChar) domain = domain.split("").join(select(mapping[""], (this.state.noDuplicates ? domain : [])));
     return domain;
   }
 
@@ -141,6 +157,14 @@ class App extends React.Component {
             <FormControlLabel
               control={<Switch color="primary" onChange={e => this.setState({ weirdChar: e.target.checked })} />}
               label="Insert Weird Chars"
+            />
+            <FormControlLabel
+              control={<Switch color="primary" onChange={e => this.setState({ noDuplicates: e.target.checked })} />}
+              label="No duplicates"
+            />
+            <FormControlLabel
+              control={<Switch color="primary" onChange={e => this.setState({ randomCharacters: e.target.checked })} />}
+              label="Random substitution characters"
             />
             <Button
               type="submit"
